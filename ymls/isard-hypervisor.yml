@@ -7,7 +7,6 @@ services:
       isard-network: {}
     ports:
       - "2022:22"
-      - "5900-6899:5900-6899"
     privileged: true
     restart: unless-stopped
     volumes:

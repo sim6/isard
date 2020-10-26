@@ -4,6 +4,7 @@ if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
     echo "  without parameters will build everything: web+hyper with video as a docker-compose .yml"
     echo "  <web> (only web, no hypevisor nor video)"
     echo "  <hypervisor> (only hypervisor with video)"
+    echo "  <standalone-hypervisor> (only hypervisor without video)"
     exit 1
 fi
 
@@ -76,15 +77,21 @@ if [[ $1 == "hypervisor" ]]; then
     echo "You have the hypervisor.yml and devel-hypervisor.yml compose files. Have fun!"
 fi
 
-if [[ $1 == "novideohyp" ]]; then
-    echo "Building novideo-hypervisor.yml..."
+if [[ $1 == "standalone-hypervisor" ]]; then
+    echo "Building standalone-hypervisor.yml..."
+    if [ -z "$HYPERVISOR_HOST_TRUNK_INTERFACE" ]; then
+        HYPER_YAML=isard-standalone-hypervisor.yml
+    else
+        HYPER_YAML=isard-standalone-hypervisor-vlans.yml
+    fi
+
     docker-compose  -f ymls/$HYPER_YAML \
             -f ymls/isard-stats.yml \
-            config > novideo-hypervisor.yml
-        docker-compose -f novideo-hypervisor.yml \
+            config > standalone-hypervisor.yml
+        docker-compose -f standalone-hypervisor.yml \
                 -f ymls/devel/isard-stats.yml.devel \
-                config > devel-novideo-hypervisor.yml
-    echo "You have the novideo-hypervisor.yml and devel-novideo-hypervisor.yml compose files. Have fun!"
+                config > devel-standalone-hypervisor.yml
+    echo "You have the standalone-hypervisor.yml and devel-standalone-hypervisor.yml compose files. Have fun!"
 fi
 
 if [[ $1 == "web" ]]; then

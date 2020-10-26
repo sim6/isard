@@ -4,10 +4,10 @@ services:
     container_name: isard-hypervisor
     image: isard/hypervisor:${TAG-latest}
     networks:
-      - isard-network
-      - internet-vms
+      isard-network: {}
     ports:
       - "2022:22"
+      - "5900-6899:5900-6899"
     privileged: true
     restart: unless-stopped
     volumes:
@@ -26,11 +26,3 @@ networks:
   isard-network:
     external: false
     name: isard-network
-  internet-vms:
-    driver: macvlan
-    driver_opts:
-      parent: ${HYPERVISOR_HOST_TRUNK_INTERFACE}
-    ipam:
-      config:
-        - subnet: 172.30.0.0/16
-
