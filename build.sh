@@ -76,6 +76,17 @@ if [[ $1 == "hypervisor" ]]; then
     echo "You have the hypervisor.yml and devel-hypervisor.yml compose files. Have fun!"
 fi
 
+if [[ $1 == "novideohyp" ]]; then
+    echo "Building novideo-hypervisor.yml..."
+    docker-compose  -f ymls/$HYPER_YAML \
+            -f ymls/isard-stats.yml \
+            config > novideo-hypervisor.yml
+        docker-compose -f novideo-hypervisor.yml \
+                -f ymls/devel/isard-stats.yml.devel \
+                config > devel-novideo-hypervisor.yml
+    echo "You have the novideo-hypervisor.yml and devel-novideo-hypervisor.yml compose files. Have fun!"
+fi
+
 if [[ $1 == "web" ]]; then
     echo "Building web.yml..."
     docker-compose  -f ymls/isard-db.yml \
