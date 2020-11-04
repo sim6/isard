@@ -77,21 +77,16 @@ if [[ $1 == "hypervisor" ]]; then
     echo "You have the hypervisor.yml and devel-hypervisor.yml compose files. Have fun!"
 fi
 
-if [[ $1 == "standalone-hypervisor" ]]; then
-    echo "Building standalone-hypervisor.yml..."
-    if [ -z "$HYPERVISOR_HOST_TRUNK_INTERFACE" ]; then
-        HYPER_YAML=isard-standalone-hypervisor.yml
-    else
-        HYPER_YAML=isard-standalone-hypervisor-vlans.yml
-    fi
-
+if [[ $1 == "hypervisor-standalone" ]]; then
+    echo "Building docker-compose.hypervisor-standalone.yml..."
     docker-compose  -f ymls/$HYPER_YAML \
+            -f ymls/isard-hypervisor-standalone.yml \
             -f ymls/isard-stats.yml \
-            config > standalone-hypervisor.yml
-        docker-compose -f standalone-hypervisor.yml \
+            config > docker-compose.hypervisor-standalone.yml
+        docker-compose -f docker-compose.hypervisor-standalone.yml \
                 -f ymls/devel/isard-stats.yml.devel \
-                config > devel-standalone-hypervisor.yml
-    echo "You have the standalone-hypervisor.yml and devel-standalone-hypervisor.yml compose files. Have fun!"
+                config > docker-compose.hypervisor-standalone.devel.yml
+    echo "You have the docker-compose.hypervisor-standalone.yml and docker-compose.hypervisor-standalone.devel.yml compose files. Have fun!"
 fi
 
 if [[ $1 == "web" ]]; then

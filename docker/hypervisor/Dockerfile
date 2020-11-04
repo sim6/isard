@@ -27,6 +27,8 @@ RUN apk add --no-cache git \
 # Build QEMU
 RUN git clone --depth 1 --branch v5.1.0 https://github.com/qemu/qemu && \
     cd qemu && \
+    git submodule init && \
+    git submodule update --recursive && \
     mkdir -p bin/debug/native && \
     cd bin/debug/native && \
     ../../../configure --target-list=x86_64-softmmu --enable-debug --disable-werror \
